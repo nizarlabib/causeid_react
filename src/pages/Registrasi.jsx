@@ -86,7 +86,7 @@ const Races = () => {
                 <tbody className="text-center">
                     <tr>
                         <td className="px-4 py-2">{dataRace.race_name}</td>
-                        <td className="px-4 py-2">{dataRace.race_picture}</td>
+                        <td className="px-4 py-2"><img className="h-20" src={dataRace.race_picture} alt="" /></td>
                         <td className="px-4 py-2">{dataRace.race_startdatetime}</td>
                         <td className="px-4 py-2">{dataRace.race_enddatetime}</td>
                         <td className="px-4 py-2">{dataRace.race_activitystartdatetime}</td>
@@ -129,7 +129,8 @@ const Races = () => {
                 render={({ field }) => 
                   <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700" required>Jersey Size</label>
-                        <select name="jersey" id="" {...field}>
+                        <select name="jersey" required {...field}>
+                            <option name=""></option>  
                             <option name="S">S</option>  
                             <option name="M">M</option>  
                             <option name="L">L</option>  

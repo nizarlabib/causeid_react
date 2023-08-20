@@ -82,6 +82,7 @@ const Dashboard = () => {
               <tr>
                 <th className="border border-gray-400 px-4 py-2">No</th>
                 <th className="border border-gray-400 px-4 py-2">Races</th>
+                <th className="border border-gray-400 px-4 py-2">Picture</th>
                 <th className="border border-gray-400 px-4 py-2">Finish Kilometer</th>
                 <th className="border border-gray-400 px-4 py-2">Jarak ditempuh</th>
                 <th className="border border-gray-400 px-4 py-2">Progres</th>
@@ -89,27 +90,35 @@ const Dashboard = () => {
             </thead>
 
             {dataRace && raceProgres && (
-            <tbody className="text-center">
-              {dataRace.map((race, index) => (
-                <tr key={index}>
-                  <td className="border border-gray-400 px-4 py-2">{index + 1}</td>
-                  <td className="border border-gray-400 px-4 py-2">{race.race_name}</td>
-                  <td className="border border-gray-400 px-4 py-2">{race.race_finishkilometer}</td>
-                  {raceProgres[index] ? (
-                    <>
-                      <td className="border border-gray-400 px-4 py-2">{raceProgres[index].total_kilometers}</td>
-                      <td className="border border-gray-400 px-4 py-2">{raceProgres[index].progress_races}%</td>
-                    </>
-                  ) : (
-                    <>
-                      <td className="border border-gray-400 px-4 py-2">0</td>
-                      <td className="border border-gray-400 px-4 py-2">0%</td>
-                    </>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          )}
+              <tbody className="text-center">
+                {dataRace.map((race, index) => {
+                  const progress = raceProgres.find(progresRaces => progresRaces.race_id === race.id);
+
+                  return (
+                    <tr key={index}>
+                      <td className="border border-gray-400 px-4 py-2">{index + 1}</td>
+                      <td className="border border-gray-400 px-4 py-2">{race.race_name}</td>
+                      <td className="border border-gray-400 px-4 py-2">
+                        <img className="w-20" src={race.race_picture} alt="" />
+                      </td>
+                      <td className="border border-gray-400 px-4 py-2">{race.race_finishkilometer}</td>
+                      {progress ? (
+                        <>
+                          <td className="border border-gray-400 px-4 py-2">{progress.total_kilometers}</td>
+                          <td className="border border-gray-400 px-4 py-2">{progress.progress_races}%</td>
+                        </>
+                      ) : (
+                        <>
+                          <td className="border border-gray-400 px-4 py-2">0</td>
+                          <td className="border border-gray-400 px-4 py-2">0%</td>
+                        </>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            )}
+
           </table>
           </div>
         </div>

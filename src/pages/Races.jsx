@@ -60,9 +60,13 @@ const Races = () => {
                     <th className="border border-gray-400 px-4 py-2 px-4 py-2">Daftar</th>
                     </tr>
                 </thead>
+
                 {dataRace && dataStatus && (
-                <tbody className="text-center">
-                {dataRace.map((race, index) => (
+                  <tbody className="text-center">
+                    {dataRace.map((race, index) => {
+                      const statusRace = dataStatus.find(statusRaces => statusRaces.id === race.id);
+
+                      return (
                         <tr>
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}>{(index+1)}</td>
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}>{race.race_name}</td>
@@ -71,9 +75,9 @@ const Races = () => {
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}>{race.race_enddatetime}</td>
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}>{race.race_description}</td>
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}>{race.race_finishkilometer}</td>
-                        {dataStatus[index] ? (
+                        {statusRace ? (
                           <>
-                            <td className="border border-gray-400 px-4 py-2">{dataStatus[index].status}</td>
+                            <td className="border border-gray-400 px-4 py-2">{statusRace.status}</td>
                             <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}></td>
                           </>
                         ) : (
@@ -85,9 +89,10 @@ const Races = () => {
                         )}
 
                         </tr>
-                    ))}
-                </tbody>
-            )}
+                      );
+                    })}
+                  </tbody>
+                )}
             </table>
         </div>
     </div>
