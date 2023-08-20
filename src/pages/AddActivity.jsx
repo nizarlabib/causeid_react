@@ -5,18 +5,17 @@ import backend from '../api/backend';
 import Navbar from '../components/Navbar';
 
 const AddActivity = () => {
-    const { control, register, handleSubmit } = useForm();
+    const { control, handleSubmit } = useForm();
     const navigate = useNavigate();
     const [dataRaces, setDataRaces] = useState([]);
-    const [dataUser, setDataUser] = useState(null);
-    const [file, setFile] = useState([]);
+    const [dataUser, setDataUser] = useState([]);
+    const [image, setImage] = useState('');
 
     const token = localStorage.getItem("token");
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    }; 
+    const handleChange = (e) => {
+        setImage(e.target.files[0]);
+    }
 
     useEffect(() => {
 
@@ -27,7 +26,10 @@ const AddActivity = () => {
           try {
     
             const raceResponse = await backend.get('/races/user/races', {
-              headers: headers,
+              headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
             });
             setDataRaces(raceResponse.data.data.races);
             setDataUser(raceResponse.data.data.user);
@@ -44,7 +46,7 @@ const AddActivity = () => {
         try {
             const formData = new FormData();
             formData.append('activity_name', data.name);
-            // formData.append("fileupload", data.target.files[0]);
+            formData.append('activity_picture', image);
             formData.append('activity_type', data.type);
             formData.append('activity_kilometers', data.kilometers);
             formData.append('activity_hours', data.hours);
@@ -55,7 +57,11 @@ const AddActivity = () => {
             formData.append('user_id', dataUser.id);
       
             const responseActivities = await backend.post('/activities/create', formData, {
-              headers: headers,
+              headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Accept' : 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
             });
             navigate('/activities');
     
@@ -101,17 +107,10 @@ const AddActivity = () => {
             </div>
             }
             />
-            <Controller
-            name="picture"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Picture</label>
-                {/* <input type="text" name="name" className="mt-1 p-2 w-full border rounded-md" required {...field}/> */}
+                <input type="file" name="image" className="mt-1 p-2 w-full border rounded-md" required onChange={handleChange}/>
             </div>
-            }
-            />
             <Controller
             name="type"
             control={control}
