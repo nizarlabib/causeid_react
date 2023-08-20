@@ -55,7 +55,9 @@ const Activities = () => {
             <table className="table-auto mx-5">
                 <thead>
                     <tr>
+                    <th className="border border-gray-400 px-4 py-2">No</th>
                     <th className="border border-gray-400 px-4 py-2">Activity Name</th>
+                    <th className="border border-gray-400 px-4 py-2">Race</th>
                     <th className="border border-gray-400 px-4 py-2">Activity Picture</th>
                     <th className="border border-gray-400 px-4 py-2">Activity Type</th>
                     <th className="border border-gray-400 px-4 py-2">Activity Kilometers</th>
@@ -69,7 +71,9 @@ const Activities = () => {
                 <tbody className="text-center">
                 {dataActivities.map((activities, index) => (
                         <tr>
+                        <td className="border border-gray-400 px-4 py-2">{index+1}</td>
                         <td className="border border-gray-400 px-4 py-2" key={index}>{activities.activity_name}</td>
+                        <td className="border border-gray-400 px-4 py-2" key={index}>{activities.race_name}</td>
                         <td className="border border-gray-400 px-4 py-2" key={index}><img className="w-20" src={activities.activity_picture} alt="" /></td>
                         <td className="border border-gray-400 px-4 py-2" key={index}>{activities.activity_type}</td>
                         <td className="border border-gray-400 px-4 py-2" key={index}>{activities.activity_kilometers}</td>

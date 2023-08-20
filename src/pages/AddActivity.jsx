@@ -80,6 +80,7 @@ const AddActivity = () => {
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700">Race</label>
                     <select name="idrace" id="" {...field}>
+                        <option name="idrace">-</option>  
                         {dataRaces.map((races, index) => (
                             <option name="idrace" key={index}>{races.id}</option>  
                         ))}

@@ -97,7 +97,7 @@ const Dashboard = () => {
                   <td className="border border-gray-400 px-4 py-2">{race.race_finishkilometer}</td>
                   {raceProgres[index] ? (
                     <>
-                      <td className="border border-gray-400 px-4 py-2">{raceProgres[index].activity_kilometers}</td>
+                      <td className="border border-gray-400 px-4 py-2">{raceProgres[index].total_kilometers}</td>
                       <td className="border border-gray-400 px-4 py-2">{raceProgres[index].progress_races}%</td>
                     </>
                   ) : (
