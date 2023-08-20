@@ -1,68 +1,118 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import backend from '../api/backend';
+import Navbar from '../components/Navbar';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [dataRace, setDataRace] = useState([]);
+  const [raceProgres, setRaceProgres] = useState([]);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");  
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/user/1')
-      .then(response => {
-        setUserData(response.data.data);
-        localStorage.setItem('userData', JSON.stringify(response.data.data));
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-  }, []);
+
+    if (!token) {
+      navigate('/login');
+    }
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    const fetchData = async () => {
+      try {
+
+        const raceResponse = await backend.get('/races/user/races', {
+          headers: headers,
+        });
+        setUserData(raceResponse.data.data.user);
+        setDataRace(raceResponse.data.data.races);
+
+        const progresResponse = await backend.get('/races/user/progres', {
+          headers: headers,
+        });
+        setRaceProgres(progresResponse.data.data.races);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
   
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/user/races/progress/1')
-      .then(response => {
-        setDataRace(response.data.data);
-        console.log(dataRace);
-      })
-      .catch(error => {
-        console.error('Error fetching race data:', error);
-      });
-  }, []);
+    fetchData();
+  }, [token]);
+  
 
   return (
     <div>
-      {userData && (
-        <div>
-          <h2 className="mt-5 ml-5 text-xl font-bold">Welcome {userData.user_firstname} !</h2>
-          <table className="table-auto w-full mt-5">
+      <Navbar />
+        <div >
+        {userData && (
+          <h2 className="mt-5 ml-5 text-xl font-bold">Welcome {userData.username} !</h2>
+          )}
+
+          <p className="mt-5 ml-5 text-md ">User Profile</p>
+          <div className="flex items-center justify-center">
+
+          <table className="table-auto w-full mt-5 border-collapse border border-gray-400">
             <thead>
               <tr>
-                <th className="px-4 py-2">Username</th>
-                <th className="px-4 py-2">Firstname</th>
-                <th className="px-4 py-2">Lastname</th>
-                <th className="px-4 py-2">Races</th>
+                <th className="border border-gray-400 px-4 py-2">Username</th>
+                <th className="border border-gray-400 px-4 py-2">Firstname</th>
+                <th className="border border-gray-400 px-4 py-2">Lastname</th>
               </tr>
             </thead>
+
+            {userData && (
             <tbody className="text-center">
               <tr>
-                <td className="px-4 py-2">{userData.username}</td>
-                <td className="px-4 py-2">{userData.user_firstname}</td>
-                <td className="px-4 py-2">{userData.user_lastname}</td>
-                <td className="px-4 py-2">
-                  {dataRace.length > 0 ? (
-                    <ul>
-                      {dataRace.map((race, index) => (
-                        <li key={index}>{race.race_name} (Jarak yang didapat = {race.activity_kilometers}) (Finish kilometers = {race.race_finishkilometer}) (Progress = {race.progress_races}%)</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    'No race data available'
-                  )}
-                </td>
+                <td className="border border-gray-400 px-4 py-2">{userData.username}</td>
+                <td className="border border-gray-400 px-4 py-2">{userData.user_firstname}</td>
+                <td className="border border-gray-400 px-4 py-2">{userData.user_lastname}</td>
               </tr>
             </tbody>
+             )}
           </table>
+          </div>
+          <p className="mt-5 ml-5 text-md ">Data Race</p>
+          <div className="flex  items-center justify-center">
+          <table className="table-auto w-full mt-5 border-collapse border border-gray-400">
+            <thead>
+              <tr>
+                <th className="border border-gray-400 px-4 py-2">No</th>
+                <th className="border border-gray-400 px-4 py-2">Races</th>
+                <th className="border border-gray-400 px-4 py-2">Finish Kilometer</th>
+                <th className="border border-gray-400 px-4 py-2">Jarak ditempuh</th>
+                <th className="border border-gray-400 px-4 py-2">Progres</th>
+              </tr>
+            </thead>
+
+            {dataRace && raceProgres && (
+            <tbody className="text-center">
+              {dataRace.map((race, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-400 px-4 py-2">{index + 1}</td>
+                  <td className="border border-gray-400 px-4 py-2">{race.race_name}</td>
+                  <td className="border border-gray-400 px-4 py-2">{race.race_finishkilometer}</td>
+                  {raceProgres[index] ? (
+                    <>
+                      <td className="border border-gray-400 px-4 py-2">{raceProgres[index].activity_kilometers}</td>
+                      <td className="border border-gray-400 px-4 py-2">{raceProgres[index].progress_races}%</td>
+                    </>
+                  ) : (
+                    <>
+                      <td className="border border-gray-400 px-4 py-2">0</td>
+                      <td className="border border-gray-400 px-4 py-2">0%</td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          )}
+          </table>
+          </div>
         </div>
-      )}
     </div>
   );
 }
