@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import useFormPersist from 'react-hook-form-persist';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import backend from '../api/backend';
 import Navbar from '../components/Navbar';
@@ -8,21 +8,15 @@ import Navbar from '../components/Navbar';
 
 const AddActivity = () => {
     const { control, handleSubmit, register } = useForm();
-    // const { register, handleSubmit, watch, errors, setValue } = useForm();
+
     const navigate = useNavigate();
     const [dataRaces, setDataRaces] = useState([]);
     const [dataUser, setDataUser] = useState([]);
     const [image, setImage] = useState('');
 
-    // useFormPersist("storageKey", {
-    //     watch, 
-    //     setValue,
-    //     storage: window.localStorage, // default window.sessionStorage
-    //     exclude: ['baz']
-    //   });
-
-    const token = localStorage.getItem("token");
-
+    // const token = localStorage.getItem("token");
+    const token = useSelector(state => state.token);
+    
     const handleChange = (e) => {
         setImage(e.target.files[0]);
     }

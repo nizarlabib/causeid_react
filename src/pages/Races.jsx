@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import JsPDF from 'jspdf';
+import { useSelector } from 'react-redux';
 import backend from '../api/backend';
 import Navbar from '../components/Navbar';
 
@@ -8,7 +8,8 @@ const Races = () => {
   const [dataRace, setDataRace] = useState([]);
   const [dataStatus, setDataStatus] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token"); 
+  // const token = localStorage.getItem("token"); 
+  const token = useSelector(state => state.token);
 
   useEffect(() => {
     if (!token) {

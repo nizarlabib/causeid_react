@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../redux/auth/actions';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +11,8 @@ const Login = () => {
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const dispatch = useDispatch();
+    const [token, setLocalToken] = useState('');
 
     const onSubmit = async (data) => {
         try {
@@ -23,7 +27,8 @@ const Login = () => {
               },
             });
             setError(response.data.message);
-            localStorage.setItem("token", response.data.data.access_token);
+            // localStorage.setItem("token", response.data.data.access_token);
+            dispatch(setToken(response.data.data.access_token));
             navigate('/dashboard');
     
         } catch (error) {
@@ -39,8 +44,8 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
 
             <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700" required>Username</label>
-                    <input type="text" name="username" className="mt-1 p-2 w-full border rounded-md" required {...register('username')}/>
+                <label className="block text-sm font-medium text-gray-700" required>Username</label>
+                <input type="text" name="username" className="mt-1 p-2 w-full border rounded-md" required {...register('username')}/>
             </div>
         
             <div className="mb-3">

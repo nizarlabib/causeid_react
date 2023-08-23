@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import backend from '../api/backend';
 import Navbar from '../components/Navbar';
 
@@ -11,7 +12,8 @@ const Races = () => {
     const navigate = useNavigate();
     const { control, handleSubmit } = useForm();
     const { id } = useParams();
-    const token = localStorage.getItem("token"); 
+    // const token = localStorage.getItem("token"); 
+    const token = useSelector(state => state.token);
 
     useEffect(() => {
       if (!token) {
