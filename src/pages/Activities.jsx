@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import backend from '../api/backend';
 import Navbar from '../components/Navbar';
 
 const Activities = () => {
   const [dataActivities, setDataActivities] = useState(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token"); 
+  // const token = localStorage.getItem("token"); 
+  const token = useSelector(state => state.token);
 
   const headers = {
     'Content-Type': 'application/json',

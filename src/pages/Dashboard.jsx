@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backend from '../api/backend';
 import Navbar from '../components/Navbar';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [dataRace, setDataRace] = useState([]);
   const [raceProgres, setRaceProgres] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");  
+  // const token = localStorage.getItem("token");  
+  const token = useSelector(state => state.token);
 
   useEffect(() => {
 

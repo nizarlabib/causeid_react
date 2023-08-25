@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../redux/auth/actions';
 import { Link } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import backend from '../api/backend';
 
 const Login = () => {
     
-    const { control, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const dispatch = useDispatch();
+    const [token, setLocalToken] = useState('');
 
     const onSubmit = async (data) => {
         try {
@@ -23,7 +27,8 @@ const Login = () => {
               },
             });
             setError(response.data.message);
-            localStorage.setItem("token", response.data.data.access_token);
+            // localStorage.setItem("token", response.data.data.access_token);
+            dispatch(setToken(response.data.data.access_token));
             navigate('/dashboard');
     
         } catch (error) {
@@ -37,29 +42,17 @@ const Login = () => {
         <div className="bg-white p-8 rounded shadow-md w-80">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-            name="username"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+
             <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700" required>Username</label>
-                    <input type="text" name="username" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
+                <label className="block text-sm font-medium text-gray-700" required>Username</label>
+                <input type="text" name="username" className="mt-1 p-2 w-full border rounded-md" required {...register('username')}/>
             </div>
-            }
-        />
         
-        <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
             <div className="mb-3">
                 <label className="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="password" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
+                <input type="password" name="password" className="mt-1 p-2 w-full border rounded-md" required {...register('password')}/>
             </div>
-            }
-        />
+
         <p className='mb-4 text-red-500'>{error}</p>
         <button type="submit" className="w-full bg-black text-white py-2 rounded">Login</button>
         </form>

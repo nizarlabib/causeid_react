@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import backend from '../api/backend';
 import Navbar from '../components/Navbar';
 
+
 const AddActivity = () => {
-    const { control, handleSubmit } = useForm();
+    const { control, handleSubmit, register } = useForm();
+
     const navigate = useNavigate();
     const [dataRaces, setDataRaces] = useState([]);
     const [dataUser, setDataUser] = useState([]);
     const [image, setImage] = useState('');
 
-    const token = localStorage.getItem("token");
-
+    // const token = localStorage.getItem("token");
+    const token = useSelector(state => state.token);
+    
     const handleChange = (e) => {
         setImage(e.target.files[0]);
     }
@@ -95,89 +99,47 @@ const AddActivity = () => {
                 }
                 />
             )}
-            <Controller
-            name="name"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Name</label>
-                <input type="text" name="name" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
-                
+                <input type="text" name="name" className="mt-1 p-2 w-full border rounded-md" required {...register('name')}/>
             </div>
-            }
-            />
+
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Picture</label>
                 <input type="file" name="image" className="mt-1 p-2 w-full border rounded-md" required onChange={handleChange}/>
             </div>
-            <Controller
-            name="type"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+            
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Type</label>
-                <input type="text" name="type" className="mt-1 p-2 w-full border rounded-md" requuired {...field}/>
+                <input type="text" name="type" className="mt-1 p-2 w-full border rounded-md" requuired {...register('type')}/>
             </div>
-            }
-            />
-            <Controller
-            name="kilometers"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Kilometers</label>
-                <input type="number" name="kilometers" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
+                <input type="number" name="kilometers" className="mt-1 p-2 w-full border rounded-md" required {...register('kilometers')}/>
             </div>
-            }
-            />
-            <Controller
-            name="hours"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Hours</label>
-                <input type="number" name="hours" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
+                <input type="number" name="hours" className="mt-1 p-2 w-full border rounded-md" required {...register('hours')}/>
             </div>
-            }
-            />
-            <Controller
-            name="minutes"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Minutes</label>
-                <input type="number" name="minutes" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
+                <input type="number" name="minutes" className="mt-1 p-2 w-full border rounded-md" required {...register('minutes')}/>
             </div>
-            }
-            />
-            <Controller
-            name="seconds"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Seconds</label>
-                <input type="number" name="seconds" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
+                <input type="number" name="seconds" className="mt-1 p-2 w-full border rounded-md" required {...register('seconds')}/>
             </div>
-            }
-            />
-            
-            <Controller
-            name="datetime"
-            control={control}
-            defaultValue=""
-            render={({ field }) => 
+
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Activity Datetime</label>
-                <input type="date" name="datetime" className="mt-1 p-2 w-full border rounded-md" required {...field}/>
+                <input type="date" name="datetime" className="mt-1 p-2 w-full border rounded-md" required {...register('datetime')}/>
             </div>
-            }
-            />
+
             <button type="submit" className="w-full bg-black text-white py-2 rounded">Submit</button>
             </form>
         </div>
