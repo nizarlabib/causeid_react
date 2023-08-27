@@ -23,7 +23,7 @@ const AddActivity = () => {
 
     useEffect(() => {
 
-        if (!token) {
+        if (token==null) {
             navigate('/login');
         }
         const fetchData = async () => {
@@ -77,8 +77,8 @@ const AddActivity = () => {
   return (
     <div>
         <Navbar />
-        <div className="bg-gray-100 flex items-center justify-center">
-        <div className="bg-white my-5 p-8 rounded shadow-md w-80">
+        <div className="mt-10 bg-gray-100 flex items-center justify-center">
+        <div className="bg-white my-10 p-8 rounded shadow-md w-80">
             <h2 className="text-2xl font-bold mb-4">Add Activity</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
             {dataRaces && (

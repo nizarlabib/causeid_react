@@ -14,7 +14,7 @@ const Dashboard = () => {
 
   useEffect(() => {
 
-    if (!token) {
+    if (token==null) {
       navigate('/login');
     }
 
@@ -57,9 +57,9 @@ const Dashboard = () => {
           <p className="mt-5 ml-5 text-md ">User Profile</p>
           <div className="flex items-center justify-center">
 
-          <table className="table-auto w-full mt-5 border-collapse border border-gray-400">
+          <table className="table-fixed w-full mt-5 border-collapse border border-gray-400">
             <thead>
-              <tr>
+              <tr className='sm:table-row'>
                 <th className="border border-gray-400 px-4 py-2">Username</th>
                 <th className="border border-gray-400 px-4 py-2">Firstname</th>
                 <th className="border border-gray-400 px-4 py-2">Lastname</th>
@@ -68,7 +68,7 @@ const Dashboard = () => {
 
             {userData && (
             <tbody className="text-center">
-              <tr>
+              <tr className='sm:table-row sm:text-sm'>
                 <td className="border border-gray-400 px-4 py-2">{userData.username}</td>
                 <td className="border border-gray-400 px-4 py-2">{userData.user_firstname}</td>
                 <td className="border border-gray-400 px-4 py-2">{userData.user_lastname}</td>
@@ -77,16 +77,16 @@ const Dashboard = () => {
              )}
           </table>
           </div>
-          <p className="mt-5 ml-5 text-md ">Data Race</p>
-          <div className="flex  items-center justify-center">
-          <table className="table-auto w-full mt-5 border-collapse border border-gray-400">
+          <p className="mt-5 ml-5 text-md">Data Race</p>
+          <div className="flex items-center justify-center sm:rounded-lg">
+          <table className="table-fixed w-full mt-5 border-collapse border border-gray-400 text-sm">
             <thead>
-              <tr>
+              <tr className='sm:table-row max-w-lg'>
                 <th className="border border-gray-400 px-4 py-2">No</th>
                 <th className="border border-gray-400 px-4 py-2">Races</th>
                 <th className="border border-gray-400 px-4 py-2">Picture</th>
-                <th className="border border-gray-400 px-4 py-2">Finish Kilometer</th>
                 <th className="border border-gray-400 px-4 py-2">Jarak ditempuh</th>
+                <th className="border-gray-400 px-4 py-2 leading-loose">Finish Kilometer</th>
                 <th className="border border-gray-400 px-4 py-2">Progres</th>
               </tr>
             </thead>
@@ -97,7 +97,7 @@ const Dashboard = () => {
                   const progress = raceProgres.find(progresRaces => progresRaces.race_id === race.id);
 
                   return (
-                    <tr key={index}>
+                    <tr className='sm:table-row' key={index}>
                       <td className="border border-gray-400 px-4 py-2">{index + 1}</td>
                       <td className="border border-gray-400 px-4 py-2">{race.race_name}</td>
                       <td className="border border-gray-400 px-4 py-2">

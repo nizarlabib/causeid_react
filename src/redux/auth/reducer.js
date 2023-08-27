@@ -9,6 +9,11 @@ const initialState = {
           ...state,
           token: action.payload,
         };
+      case 'LOGOUT':
+        return {
+          ...state,
+          token: null,
+        };
       default:
         return state;
     }

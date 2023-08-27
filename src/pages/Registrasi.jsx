@@ -16,7 +16,7 @@ const Races = () => {
     const token = useSelector(state => state.token);
 
     useEffect(() => {
-      if (!token) {
+      if (token==null) {
         navigate('/login');
       }
 

@@ -12,7 +12,7 @@ const Races = () => {
   const token = useSelector(state => state.token);
 
   useEffect(() => {
-    if (!token) {
+    if (token==null) {
       navigate('/login');
     }
 
@@ -47,9 +47,9 @@ const Races = () => {
     <div>
       <Navbar />
         <div>
-            <table className="table-auto w-full mt-5 border-collapse border border-gray-400">
+            <table className="table-fixed w-full mt-20 border-collapse border border-gray-400">
                 <thead>
-                    <tr>
+                    <tr className='sm:table-row'>
                     <th className="border border-gray-400 px-4 py-2 px-4 py-2">No</th>
                     <th className="border border-gray-400 px-4 py-2 px-4 py-2">Race Name</th>
                     <th className="border border-gray-400 px-4 py-2 px-4 py-2">Race Picture</th>
@@ -68,7 +68,7 @@ const Races = () => {
                       const statusRace = dataStatus.find(statusRaces => statusRaces.id === race.id);
 
                       return (
-                        <tr>
+                        <tr className='sm:table-row'>
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}>{(index+1)}</td>
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}>{race.race_name}</td>
                         <td className="border border-gray-400 px-4 py-2 px-4 py-2" key={index}><img className="w-20" src={race.race_picture} alt="" /></td>

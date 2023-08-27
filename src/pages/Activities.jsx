@@ -16,7 +16,7 @@ const Activities = () => {
   }; 
 
   useEffect(() => {
-    if (!token) {
+    if (token==null) {
       navigate('/login');
     }
 
@@ -51,12 +51,11 @@ const Activities = () => {
     
     <div>
       <Navbar />
-      {dataActivities && (
         <div>
-          <button href="signup.php" className="my-5 ml-5 bg-green-500 text-white p-2 rounded"><Link to={'/add-activity'}>+ Add Activity</Link></button>
-            <table className="table-auto mx-5">
+          <button href="#" className="my-5 ml-5 bg-green-500 mt-20 text-white p-2 rounded"><Link to={'/add-activity'}>+ Add Activity</Link></button>
+            <table className="table-fixed mx-5 w-full text-sm text-center">
                 <thead>
-                    <tr>
+                    <tr className='sm:table-row max-w-lg'>
                     <th className="border border-gray-400 px-4 py-2">No</th>
                     <th className="border border-gray-400 px-4 py-2">Activity Name</th>
                     <th className="border border-gray-400 px-4 py-2">Race</th>
@@ -70,9 +69,10 @@ const Activities = () => {
                     <th className="border border-gray-400 px-4 py-2">Action</th>
                     </tr>
                 </thead>
+                 {dataActivities && (
                 <tbody className="text-center">
                 {dataActivities.map((activities, index) => (
-                        <tr>
+                        <tr className='sm:table-row'>
                         <td className="border border-gray-400 px-4 py-2">{index+1}</td>
                         <td className="border border-gray-400 px-4 py-2" key={index}>{activities.activity_name}</td>
                         <td className="border border-gray-400 px-4 py-2" key={index}>{activities.race_name}</td>
@@ -87,9 +87,9 @@ const Activities = () => {
                         </tr>
                     ))}
                 </tbody>
+            )}
             </table>
         </div>
-      )}
     </div>
   );
 }
